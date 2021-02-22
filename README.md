@@ -8,8 +8,8 @@
 
 
 In this project
-* mongoDB is used to store registred users data,
-* Redis is used to store online users list and emit "new connection" as well as "disconnection" events to propagste dat athrogh all servers.
+* mongoDB is used to store registered users data.
+* Redis is used to store online users list and emit "new connection" as well as "disconnection" events to propagate data through all servers.
 * Apache server is used for cookie-based load-balancing.
 * Express.js is used to handle http routes.
 * Pug is used as template engine to render simple UI to HTML.
