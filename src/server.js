@@ -55,7 +55,6 @@ store.flushall();
 app.set('views', path.resolve(__dirname + '/views/'));
 app.set('view engine', 'pug');
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static('public'));
 app.use(cookieParser());
 /* *************************************************************** */
 subscriber.on("subscribe", function () {
