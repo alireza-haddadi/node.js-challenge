@@ -1,0 +1,56 @@
+doctype html
+html(lang='en')
+    head
+        script(src="/socket.io/socket.io.js")
+    body
+        div
+            a(href="/logout") logout
+            h1 Chat Room
+            h3 Online Users
+            ul.users
+            div.info-box
+        script.
+            var users = [];
+            var socket = io();
+
+            function showUsers() {
+                var list = "";
+                for(var i=0; i<users.length; i++) {
+                    list += `<li>${users[i].firstname} ${users[i].lastname} (<span onclick="getUserInfo('${users[i].email}')" style="text-decoration:underline; color: blue; cursor:pointer;">Get info</span>)</li>`
+                }
+                document.querySelector('.users').innerHTML = list;
+            }
+
+            function getUserInfo(email) {
+                socket.emit("users.info", email);
+            }
+
+            socket.emit("users.list");
+
+            socket.on("users.list", (_users)=>{
+                users = _users;
+                showUsers()
+            });
+            socket.on("users.info", (_user)=>{
+                document.querySelector('.info-box').innerHTML = `
+                    <div>First name: ${_user.firstname}</div>
+                    <div>Last name: ${_user.lastname}</div>
+                    <div>Email: ${_user.email}</div>
+                    <div>Language: ${_user.lang}</div>
+                    <div>Country: ${_user.country}</div>`;
+            });
+            socket.on("users.connection", (usr)=>{
+                users.push(usr);
+                showUsers()
+            });
+            socket.on("users.disconnection", (usr)=>{
+                var index = users.findIndex(user => user.email === usr.email);
+                users.splice(index, 1);
+                showUsers()
+            });
+
+            socket.on("connect_error", (err) => {
+                //- console.log(err instanceof Error);
+                console.log(err.message);
+                //- console.log(err.data);
+            });
