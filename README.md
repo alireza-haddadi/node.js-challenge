@@ -2,8 +2,9 @@
 
 
 1) run command `docker build -t chatapp .`
-2) run command `docker-compose up`
-3) visit 127.0.0.1:8080 on browser
+2) run command `mkdir mongodb`
+3) run command `docker-compose up`
+4) visit 127.0.0.1:8080 on browser
 
 
 In this project
